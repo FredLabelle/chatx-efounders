@@ -21,6 +21,7 @@ import MePage from '../me/MePage';
 import OfflinePage from '../offline/OfflinePage';
 import SignInPage from '../auth/SignInPage';
 import TodosPage from '../todos/TodosPage';
+import ChatPage from '../chat/ChatPage';
 
 type AppProps = {
   appMenuShown: boolean,
@@ -52,6 +53,7 @@ const App = (
         <Page pattern="/offline" component={OfflinePage} />
         <Page pattern="/todos" component={TodosPage} />
         <Page pattern="/signin" component={SignInPage} />
+        <Page authorized pattern="/chat" component={ChatPage} />
         <Page authorized pattern="/me" component={MePage} />
         <Match
           pattern="/"

@@ -97,6 +97,10 @@ export default [
     "defaultMessage": "Utilizatori",
   },
   {
+    "id": "app.links.chat",
+    "defaultMessage": "Chat",
+  },
+  {
     "id": "auth.email.emailLegend",
     "defaultMessage": "E-mail",
   },

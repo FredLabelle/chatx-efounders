@@ -18,6 +18,7 @@ import SettingsPage from '../me/SettingsPage';
 import SignInPage from '../auth/SignInPage';
 import TodosPage from '../todos/TodosPage';
 import UsersPage from '../users/UsersPage';
+import ChatPage from '../chat/ChatPage';
 
 // Custom route to require viewer aka authenticated user.
 const AuthorizedRoute = () => {};
@@ -39,6 +40,7 @@ const routeConfig = makeRouteConfig(
     <Route Component={HomePage} />
     <Route path="fields" Component={FieldsPage} />
     <Route path="intl" Component={IntlPage} />
+    <AuthorizedRoute path="chat" Component={ChatPage} />
     <AuthorizedRoute path="me" Component={MePage}>
       <Route path="profile" Component={ProfilePage} />
       <Route path="settings" Component={SettingsPage} />
