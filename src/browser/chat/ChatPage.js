@@ -7,7 +7,9 @@ import getUserPhotoUrl from '../../common/users/getUserPhotoUrl';
 import { Title } from '../components';
 import { compose } from 'ramda';
 import { connect } from 'react-redux';
-import Rooms from './Rooms'
+import Rooms from './Rooms';
+import RoomSection from './RoomSection';
+import NewRoom from './NewRoom';
 
 const ChatPage = () =>(
   <Box>
@@ -16,7 +18,11 @@ const ChatPage = () =>(
       heading="Chat"
       description="Discuss with users."
       />
-    <Rooms/>
+    <NewRoom/>
+    <Box flexDirection="row">
+      <Rooms/>
+      <RoomSection/>
+    </Box>
   </Box>
 );
 

@@ -5,46 +5,47 @@ import { Box, Text, OutlineButton } from '../../common/components';
 import { connect } from 'react-redux';
 import { compose, isEmpty, prop, reverse, sortBy, values } from 'ramda';
 import { injectIntl } from 'react-intl';
-import RoomPage from './room/RoomPage';
-import NewRoom from './NewRoom';
+import { selectRoom } from '../../common/chat/actions';
 
 
 type RoomsItemProps = {
   room: Room,
+  selectRoom: typeof selectRoom,
 };
 
-const RoomsItem = ({room}: RoomsItemProps) => (
-  <OutlineButton>{room.title}</OutlineButton>
+const RoomsItem = ({ room, selectRoom }: RoomsItemProps) => (
+  <OutlineButton
+    onClick={() => selectRoom(room)}
+    >
+    {room.title}
+  </OutlineButton>
 );
 
 type RoomsProps = {
   rooms: ?Array<Room>,
   intl: $IntlShape,
+  selectRoom: typeof selectRoom,
 };
 
-const Rooms = ({rooms, intl}: RoomsProps) => {
-  if (rooms === null) {
+const Rooms = ({rooms, intl, selectRoom}: RoomsProps) => {
+  if (!rooms) {
     return (
-      <Box>
-        <NewRoom/>
-        <Text marginBottom={0.6}>No room available.</Text>
+      <Box paddingRight={1} >
+        <Text >No room available.</Text>
       </Box>
     );
   }
   return (
-    <Box>
-      <NewRoom/>
-      <Text>Rooms:</Text>
+    <Box paddingRight={1} minWidth="180" backgroundColor="" alignItems='center'>
+      <Text>Rooms</Text>
       <Box
         flexDirection="column"
-        flexWrap="wrap"
-        marginHorizontal={-0.25}
-        marginBottom={0.6}
-        width={2}>
+        flexWrap="wrap">
           {rooms.map(room => (
             <RoomsItem
               key={room.id}
               room={room}
+              selectRoom = {selectRoom}
             />
           ))}
       </Box>
@@ -56,7 +57,8 @@ export default compose (
   connect(
     (state: State) => ({
       rooms: state.chat.rooms,
-    })
+    }),
+    { selectRoom }
   ),
   injectIntl,
 )(Rooms);

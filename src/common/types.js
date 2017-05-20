@@ -36,8 +36,18 @@ export type User = {|
 export type Room = {|
   title: string,
   createdAt: number,
+  messages: ?Array<Message>,
   id: string,
 |};
+
+export type Message = {|
+  text: string,
+  createdAt: number,
+  id: string,
+  roomId: string,
+  userId: string,
+|};
+
 
 // Reducers
 // We can't use exact object type, because spread is not supported yet.
@@ -88,6 +98,7 @@ export type UsersState = {
 
 export type ChatState = {
   rooms: ?Array<Room>,
+  currentRoom: ?Room,
 };
 
 // State
@@ -134,3 +145,4 @@ export type Action =
   | { type: 'TOGGLE_BASELINE' }
   | { type: 'QUERY_FIREBASE', payload: { ref: string } };
   | { type: 'CREATE_ROOM', payload: { room: Room } };
+  | { type: 'SELECT_ROOM', payload: { room: Room } };

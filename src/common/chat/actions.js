@@ -13,3 +13,8 @@ export const createRoom = (title: string) =>
       },
     },
   });
+
+  export const selectRoom = (room: Room) : Action => ({
+      type: 'SELECT_ROOM',
+      payload: { room },
+  });

@@ -4,6 +4,7 @@ import { assocPath } from 'ramda';
 
 const initialState = {
   rooms: null,
+  currentRoom: null,
 };
 
 const reducer = (
@@ -15,6 +16,11 @@ const reducer = (
       var rooms = state.rooms ? state.rooms.slice() : []
       rooms.push(action.payload.room)
       return { ...state, rooms: rooms };
+    }
+
+    case 'SELECT_ROOM': {
+      var room = action.payload.room
+      return { ...state, currentRoom: room };
     }
 
     default:
