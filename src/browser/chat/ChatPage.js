@@ -2,29 +2,22 @@
 import type { State, User } from '../../common/types';
 import React from 'react';
 import linksMessages from '../../common/app/linksMessages';
-import { Box, Image, Text } from '../../common/components';
+import { Box, Image, Text, PageHeader } from '../../common/components';
+import getUserPhotoUrl from '../../common/users/getUserPhotoUrl';
 import { Title } from '../components';
 import { compose } from 'ramda';
 import { connect } from 'react-redux';
+import Rooms from './Rooms'
 
-type ChatPageProps = {
-  children: any,
-  viewer: ?User,
-};
+const ChatPage = () =>(
+  <Box>
+    <Title message={linksMessages.chat} />
+    <PageHeader
+      heading="Chat"
+      description="Discuss with users."
+      />
+    <Rooms/>
+  </Box>
+);
 
-const ChatPage = ({ children, viewer }: ChatPageProps) =>
-  !viewer
-    ? null
-    : <Box>
-        <Title message={linksMessages.chat} />
-        {children ||
-          <Box>
-            <Text>todo</Text>
-          </Box>}
-      </Box>;
-
-export default compose(
-  connect((state: State) => ({
-    viewer: state.users.viewer,
-  })),
-)(ChatPage);
+export default ChatPage;

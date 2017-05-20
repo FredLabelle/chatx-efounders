@@ -220,4 +220,8 @@ export default [
     "id": "todos.todos.empty",
     "defaultMessage": "It's rather empty here...",
   },
+  {
+    "id": "rooms.newRoom.placeholder",
+    "defaultMessage": "Title...",
+  },
 ];

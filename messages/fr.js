@@ -212,4 +212,8 @@ export default [
     "id": "todos.todos.empty",
     "defaultMessage": "C'est plutôt calme par ici...",
   },
+  {
+    "id": "rooms.newRoom.placeholder",
+    "defaultMessage": "Titre...",
+  },
 ];

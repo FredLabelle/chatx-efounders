@@ -33,6 +33,12 @@ export type User = {|
   photoURL: ?string,
 |};
 
+export type Room = {|
+  title: string,
+  createdAt: number,
+  id: string,
+|};
+
 // Reducers
 // We can't use exact object type, because spread is not supported yet.
 // We can't use Strict<T> = T & $Shape<T>, because it breaks autocomplete.
@@ -80,6 +86,10 @@ export type UsersState = {
   viewer: ?User,
 };
 
+export type ChatState = {
+  rooms: ?Array<Room>,
+};
+
 // State
 
 export type State = {
@@ -92,6 +102,7 @@ export type State = {
   intl: IntlState,
   todos: TodosState,
   users: UsersState,
+  chat: ChatState,
 };
 
 // Actions
@@ -122,3 +133,4 @@ export type Action =
   | { type: 'TOGGLE_TODO_COMPLETED', payload: { todo: Todo } }
   | { type: 'TOGGLE_BASELINE' }
   | { type: 'QUERY_FIREBASE', payload: { ref: string } };
+  | { type: 'CREATE_ROOM', payload: { room: Room } };
