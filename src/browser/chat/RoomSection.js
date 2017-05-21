@@ -27,9 +27,14 @@ const RoomSection = ({ room, intl, sendMessage } : RoomProps) => {
 
   return (
     <Box>
-      <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20} height={20}>
-        <Text>#{room.title}</Text>
-        <Messages messages={room.messages}/>
+      <Text>#{room.title}</Text>
+      <Box flexDirection="row">
+        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20} height={20}>
+          <Messages messages={room.messages}/>
+        </Box>
+        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={8} height={20}>
+          <Text>Members</Text>
+        </Box>
       </Box>
       <Box>
         <NewMessage room={room} />

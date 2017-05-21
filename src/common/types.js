@@ -36,7 +36,7 @@ export type User = {|
 export type Room = {|
   title: string,
   createdAt: number,
-  messages: ?Array<Message>
+  messages: ?Array<Message>,
   id: string,
 |};
 

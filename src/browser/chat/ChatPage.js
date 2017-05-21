@@ -2,11 +2,8 @@
 import type { State, User } from '../../common/types';
 import React from 'react';
 import linksMessages from '../../common/app/linksMessages';
-import { Box, Image, Text, PageHeader } from '../../common/components';
-import getUserPhotoUrl from '../../common/users/getUserPhotoUrl';
+import { Box, Image, PageHeader } from '../../common/components';
 import { Title } from '../components';
-import { compose } from 'ramda';
-import { connect } from 'react-redux';
 import Rooms from './Rooms';
 import RoomSection from './RoomSection';
 import NewRoom from './NewRoom';

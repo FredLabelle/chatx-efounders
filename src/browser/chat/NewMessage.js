@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
 import type { State, Room, User } from '../../common/types';
-import linksMessages from '../../common/app/linksMessages';
 import { Form } from '../components';
-import { compose, isEmpty, prop, reverse, sortBy, values } from 'ramda';
+import { compose } from 'ramda';
 import { connect } from 'react-redux';
 import { Box, Text, Message, TextInput } from '../../common/components';
 import { injectIntl, FormattedMessage } from 'react-intl';

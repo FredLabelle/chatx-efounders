@@ -1,6 +1,6 @@
 // @flow
 import type { Action, ChatState } from '../types';
-import { assocPath } from 'ramda';
+import { assoc, assocPath, update } from 'ramda';
 
 const initialState = {
   rooms: null,
@@ -24,10 +24,17 @@ const reducer = (
     }
 
     case 'SEND_MESSAGE': {
-      var message = action.payload.message
-      var currentRoomMessages = state.currentRoom.messages ? state.currentRoom.messages.slice() : []
-      currentRoomMessages.push(message)
-      return assocPath(['currentRoom', 'messages'],currentRoomMessages ,state);
+      var roomIndex = state.rooms.findIndex( function(room) {
+        return room.id === action.payload.message.roomId
+      });
+      var room = {...state.rooms[roomIndex], };
+      if(!room.messages){
+        room.messages = []
+      };
+      room.messages.push(action.payload.message);
+      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
+      //Force currentRoom to be the one receiving message
+      return assocPath(['currentRoom'], room , newState);
     }
 
     default:
