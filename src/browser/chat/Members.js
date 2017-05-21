@@ -20,7 +20,7 @@ const Members = ( {members} : MembersProps) => {
     <Box>
       <Text bold={true} >Members</Text>
       {members.map(member => (
-        <Box flexDirection="row" alignItems="center" key={member.id} paddingTop={1}>
+        <Box flexDirection="row" alignItems="center" key={member.id} paddingTop={1} height={1} flexShrink={0}>
          <Text>{member.email}</Text>
         </Box>
       ))}

@@ -36,7 +36,7 @@ const Rooms = ({rooms, intl, selectRoom}: RoomsProps) => {
     );
   }
   return (
-    <Box paddingRight={1} minWidth="180" backgroundColor="" alignItems='center'>
+    <Box paddingRight={1} minWidth="180" backgroundColor="" alignItems='left'>
       <Text>Rooms</Text>
       <Box
         flexDirection="column"

@@ -15,16 +15,16 @@ type NewMessageProps = {|
   fields: any,
   intl: $IntlShape,
   roomId: string,
-  viewerId: ?string,
+  viewer: ?User,
   isMember: boolean,
 |};
 
-const NewMessage = ({ sendMessage, fields, intl, roomId, viewerId, isMember } : NewMessageProps ) => (
+const NewMessage = ({ sendMessage, fields, intl, roomId, viewer, isMember } : NewMessageProps ) => (
   <Form
     onSubmit={() => {
       const title = fields.title.value.trim();
-      if (!title || !viewerId) return;
-      sendMessage(title, viewerId, roomId);
+      if (!title || !viewer) return;
+      sendMessage(title, viewer, roomId);
       fields.$reset();
     }}
   >
@@ -44,7 +44,7 @@ const NewMessage = ({ sendMessage, fields, intl, roomId, viewerId, isMember } : 
 
 export default compose(
   connect((state: State) => ({
-    viewerId: state.users.viewer.id,
+    viewer: state.users.viewer,
     roomId: state.chat.currentRoom.id,
   }),
   {sendMessage}),

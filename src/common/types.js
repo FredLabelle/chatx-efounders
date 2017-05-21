@@ -47,6 +47,7 @@ export type Message = {|
   id: string,
   roomId: string,
   authorId: string,
+  authorName: string,
 |};
 
 
@@ -150,3 +151,4 @@ export type Action =
   | { type: 'SEND_MESSAGE', payload: { message: Message } };
   | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } };
   | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
+  | { type: 'ROOMS_FETCHED', payload: { rooms: Object } };

@@ -5,6 +5,7 @@ import React from 'react';
 import queryFirebase from './queryFirebase';
 import { makeRouteConfig, Route } from 'found/lib/jsx';
 import { onUsersPresence } from '../../common/users/actions';
+import { roomsFetched } from '../../common/chat/actions';
 
 // Pages
 import App from './App';
@@ -40,7 +41,12 @@ const routeConfig = makeRouteConfig(
     <Route Component={HomePage} />
     <Route path="fields" Component={FieldsPage} />
     <Route path="intl" Component={IntlPage} />
-    <AuthorizedRoute path="chat" Component={ChatPage} />
+    <AuthorizedRoute
+      path="chat"
+      Component={ChatPage}
+      getData={queryFirebase(
+        ref => [ref.child('rooms'), 'value', roomsFetched],
+      )}/>
     <AuthorizedRoute path="me" Component={MePage}>
       <Route path="profile" Component={ProfilePage} />
       <Route path="settings" Component={SettingsPage} />

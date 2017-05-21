@@ -18,21 +18,15 @@ type ButtonsProps = {
 
 const Buttons = ({ joinRoom, leaveRoom, roomId, viewer, isMember }: ButtonsProps) => {
   return (
-    <Box flexDirection="row" marginHorizontal={-0.25} marginVertical={1}>
-      <FormattedMessage {...buttonsMessages.joinRoom}>
-        {message => (
-          <Button
-            primary
-            marginHorizontal={0.25}
-            onPress={() => {
-              isMember ? leaveRoom(roomId, viewer.id) : joinRoom(roomId, viewer)
-            }}
-          >
-           {isMember ? "Leave" : "Join"}
-          </Button>
-        )}
-      </FormattedMessage>
-    </Box>
+      <Button
+        primary
+        marginHorizontal={0.25}
+        onPress={() => {
+          isMember ? leaveRoom(roomId, viewer.id) : joinRoom(roomId, viewer)
+        }}
+      >
+       {isMember ? "Leave" : "Join"}
+      </Button>
   );
 };
 

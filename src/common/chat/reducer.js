@@ -71,6 +71,22 @@ const reducer = (
       return assocPath(['currentRoom'], room , newState);
     }
 
+    case 'ROOMS_FETCHED': {
+      if(!action.payload) {
+        return state
+      }
+      const { roomsData } = action.payload.rooms;
+      if (!roomsData) {
+        return state;
+      }
+      const rooms = compose(
+        map(item => item.room),
+        values,
+        map(compose(last, values)),
+      )(roomsData);
+      return assocPath(['rooms'], rooms, state);
+    }
+
     default:
       return state;
   }

@@ -40,7 +40,7 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
   return (
     <Box>
       <Box flexDirection="row" alignItems="center">
-        <Text paddingRight={1}>#{room.title}</Text>
+        <Text paddingRight={1} >#{room.title}</Text>
         <Buttons isMember={isMember}/>
       </Box>
       <Box flexDirection="row" height={15}>
