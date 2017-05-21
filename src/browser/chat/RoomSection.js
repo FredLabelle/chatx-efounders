@@ -9,6 +9,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { Title } from '../components';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
+import Buttons from './Buttons';
+import Members from './Members';
 
 type RoomSectionProps = {
   room : Room,
@@ -27,13 +29,16 @@ const RoomSection = ({ room, intl, sendMessage } : RoomProps) => {
 
   return (
     <Box>
-      <Text>#{room.title}</Text>
-      <Box flexDirection="row">
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20} height={20}>
+      <Box flexDirection="row" alignItems="center">
+        <Text paddingRight={1}>#{room.title}</Text>
+        <Buttons />
+      </Box>
+      <Box flexDirection="row" height={15}>
+        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20}  overflow='scroll'>
           <Messages messages={room.messages}/>
         </Box>
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={8} height={20}>
-          <Text>Members</Text>
+        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={8} overflow='scroll'>
+          <Members members={room.members}/>
         </Box>
       </Box>
       <Box>

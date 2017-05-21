@@ -23,6 +23,21 @@ const reducer = (
       return { ...state, currentRoom: room };
     }
 
+    case 'JOIN_ROOM': {
+      console.log("eret");
+      var roomIndex = state.rooms.findIndex( function(room) {
+        return room.id === action.payload.roomId
+      });
+      var room = {...state.rooms[roomIndex], };
+      if(!room.members){
+        room.members = []
+      };
+      room.members.push(action.payload.user); //TODO should not happen but check if already a member
+      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
+      //Make sure currentRoom is still the one receiving new members
+      return assocPath(['currentRoom'], room , newState);
+    }
+
     case 'SEND_MESSAGE': {
       var roomIndex = state.rooms.findIndex( function(room) {
         return room.id === action.payload.message.roomId
@@ -33,7 +48,7 @@ const reducer = (
       };
       room.messages.push(action.payload.message);
       var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-      //Force currentRoom to be the one receiving message
+      //Make sure currentRoom is still the one receiving message
       return assocPath(['currentRoom'], room , newState);
     }
 

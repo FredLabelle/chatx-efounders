@@ -19,6 +19,14 @@ export const selectRoom = (room: Room) : Action => ({
   payload: { room },
 });
 
+export const joinRoom = (roomId: string, user: User) : Action => ({
+  type: 'JOIN_ROOM',
+  payload: {
+    roomId: roomId,
+    user: user,
+  },
+});
+
 export const sendMessage = (title: string, userId: string, roomId: string) =>
   ({ getUid, now }: Deps): Action => ({
   type: 'SEND_MESSAGE',
