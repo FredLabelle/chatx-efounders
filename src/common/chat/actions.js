@@ -19,19 +19,19 @@ export const selectRoom = (room: Room) : Action => ({
   payload: { room },
 });
 
-export const joinRoom = (room: Room, user: User) : Action => ({
+export const joinRoom = (roomId: string, user: User) : Action => ({
   type: 'JOIN_ROOM',
   payload: {
-    room: room,
+    roomId: roomId,
     user: user,
   },
 });
 
-export const leaveRoom = (room: Room, user: User) : Action => ({
+export const leaveRoom = (roomId: string, userId: string) : Action => ({
   type: 'LEAVE_ROOM',
   payload: {
-    room: room,
-    user: user,
+    roomId: roomId,
+    userId: userId,
   },
 });
 

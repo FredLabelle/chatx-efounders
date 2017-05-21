@@ -11,6 +11,7 @@ const reducer = (
   state: ChatState = initialState,
   action: Action,
 ): ChatState => {
+
   switch (action.type) {
     case 'CREATE_ROOM': {
       var rooms = state.rooms ? state.rooms.slice() : []
@@ -25,7 +26,7 @@ const reducer = (
 
     case 'JOIN_ROOM': {
       var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.room.id
+        return room.id === action.payload.roomId
       });
       var room = {...state.rooms[roomIndex], };
       if(!room.members){
@@ -39,14 +40,14 @@ const reducer = (
 
     case 'LEAVE_ROOM': {
       var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.room.id
+        return room.id === action.payload.roomId
       });
       var room = {...state.rooms[roomIndex], };
       if(!room.members){
         return state // Should not happen
       };
       var memberIndex = room.members.findIndex( function(member) {
-        return member.id === action.payload.user.id
+        return member.id === action.payload.userId
       });
       if (memberIndex > -1) {
         room.members.splice(memberIndex, 1)

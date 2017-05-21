@@ -11,12 +11,12 @@ import { connect } from 'react-redux';
 type ButtonsProps = {
   joinRoom: typeof joinRoom,
   leaveRoom: typeof leaveRoom,
-  room: Room,
+  roomId: string,
   viewer: User,
   isMember : boolean,
 };
 
-const Buttons = ({ joinRoom, leaveRoom, room, viewer, isMember }: ButtonsProps) => {
+const Buttons = ({ joinRoom, leaveRoom, roomId, viewer, isMember }: ButtonsProps) => {
   return (
     <Box flexDirection="row" marginHorizontal={-0.25} marginVertical={1}>
       <FormattedMessage {...buttonsMessages.joinRoom}>
@@ -25,7 +25,7 @@ const Buttons = ({ joinRoom, leaveRoom, room, viewer, isMember }: ButtonsProps) 
             primary
             marginHorizontal={0.25}
             onPress={() => {
-              isMember ? leaveRoom(room, viewer) : joinRoom(room, viewer)
+              isMember ? leaveRoom(roomId, viewer.id) : joinRoom(roomId, viewer)
             }}
           >
            {isMember ? "Leave" : "Join"}
@@ -38,7 +38,7 @@ const Buttons = ({ joinRoom, leaveRoom, room, viewer, isMember }: ButtonsProps) 
 
 export default compose(
   connect((state: State) => ({
-    room: state.chat.currentRoom,
+    roomId: state.chat.currentRoom.id,
     viewer: state.users.viewer,
    }), {
     joinRoom,

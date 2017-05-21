@@ -148,4 +148,5 @@ export type Action =
   | { type: 'CREATE_ROOM', payload: { room: Room } };
   | { type: 'SELECT_ROOM', payload: { room: Room } };
   | { type: 'SEND_MESSAGE', payload: { message: Message } };
-  | { type: 'JOIN_ROOM', payload: { room: Room, user: User } };
+  | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } };
+  | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
