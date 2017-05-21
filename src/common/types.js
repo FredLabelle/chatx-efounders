@@ -36,7 +36,7 @@ export type User = {|
 export type Room = {|
   title: string,
   createdAt: number,
-  messages: ?Array<Message>,
+  messages: ?Array<Message>
   id: string,
 |};
 
@@ -45,7 +45,7 @@ export type Message = {|
   createdAt: number,
   id: string,
   roomId: string,
-  userId: string,
+  authorId: string,
 |};
 
 
@@ -146,3 +146,4 @@ export type Action =
   | { type: 'QUERY_FIREBASE', payload: { ref: string } };
   | { type: 'CREATE_ROOM', payload: { room: Room } };
   | { type: 'SELECT_ROOM', payload: { room: Room } };
+  | { type: 'SEND_MESSAGE', payload: { message: Message } };

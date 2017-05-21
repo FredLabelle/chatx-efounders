@@ -221,7 +221,11 @@ export default [
     "defaultMessage": "It's rather empty here...",
   },
   {
-    "id": "rooms.newRoom.placeholder",
+    "id": "chat.newRoom.placeholder",
     "defaultMessage": "Title...",
+  },
+  {
+    "id": "chat.newMessage.placeholder",
+    "defaultMessage": "Enter a message..",
   },
 ];

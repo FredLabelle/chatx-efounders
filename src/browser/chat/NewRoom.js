@@ -6,7 +6,7 @@ import { compose } from 'ramda';
 import { connect } from 'react-redux';
 import { fields } from '../../common/lib/redux-fields';
 import { injectIntl } from 'react-intl';
-import newRoomMessages from '../../common/chat/newRoomMessages';
+import chatMessages from '../../common/chat/chatMessages';
 import { createRoom } from '../../common/chat/actions';
 
 type NewRoomProps = {|
@@ -28,7 +28,7 @@ const NewRoom = ({ createRoom, fields, intl }: NewRoomProps) => (
     <TextInput
       {...fields.title}
       maxLength={100}
-      placeholder={intl.formatMessage(newRoomMessages.placeholder)}
+      placeholder={intl.formatMessage(chatMessages.newRoomPlaceholder)}
       type="text"
     />
   </Form>

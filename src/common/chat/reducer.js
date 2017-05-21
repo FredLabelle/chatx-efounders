@@ -23,6 +23,13 @@ const reducer = (
       return { ...state, currentRoom: room };
     }
 
+    case 'SEND_MESSAGE': {
+      var message = action.payload.message
+      var currentRoomMessages = state.currentRoom.messages ? state.currentRoom.messages.slice() : []
+      currentRoomMessages.push(message)
+      return assocPath(['currentRoom', 'messages'],currentRoomMessages ,state);
+    }
+
     default:
       return state;
   }

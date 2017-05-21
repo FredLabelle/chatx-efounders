@@ -213,7 +213,11 @@ export default [
     "defaultMessage": "C'est plutôt calme par ici...",
   },
   {
-    "id": "rooms.newRoom.placeholder",
+    "id": "chat.newRoom.placeholder",
     "defaultMessage": "Titre...",
+  },
+  {
+    "id": "chat.newMessage.placeholder",
+    "defaultMessage": "Entrer un message..",
   },
 ];
