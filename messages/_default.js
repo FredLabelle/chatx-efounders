@@ -228,4 +228,12 @@ export default [
     "id": "chat.newMessage.placeholder",
     "defaultMessage": "Enter a message..",
   },
+  {
+    "id": "chat.buttons.joinRoom",
+    "defaultMessage": "Join",
+  },
+  {
+    "id": "chat.buttons.leaveRoom",
+    "defaultMessage": "Leave",
+  },
 ];

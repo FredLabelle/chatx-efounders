@@ -24,15 +24,33 @@ const reducer = (
     }
 
     case 'JOIN_ROOM': {
-      console.log("eret");
       var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.roomId
+        return room.id === action.payload.room.id
       });
       var room = {...state.rooms[roomIndex], };
       if(!room.members){
         room.members = []
       };
       room.members.push(action.payload.user); //TODO should not happen but check if already a member
+      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
+      //Make sure currentRoom is still the one receiving new members
+      return assocPath(['currentRoom'], room , newState);
+    }
+
+    case 'LEAVE_ROOM': {
+      var roomIndex = state.rooms.findIndex( function(room) {
+        return room.id === action.payload.room.id
+      });
+      var room = {...state.rooms[roomIndex], };
+      if(!room.members){
+        return state // Should not happen
+      };
+      var memberIndex = room.members.findIndex( function(member) {
+        return member.id === action.payload.user.id
+      });
+      if (memberIndex > -1) {
+        room.members.splice(memberIndex, 1)
+      };
       var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
       //Make sure currentRoom is still the one receiving new members
       return assocPath(['currentRoom'], room , newState);
@@ -48,7 +66,7 @@ const reducer = (
       };
       room.messages.push(action.payload.message);
       var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-      //Make sure currentRoom is still the one receiving message
+      //Make sure currentRoom is still the one receiving new message
       return assocPath(['currentRoom'], room , newState);
     }
 

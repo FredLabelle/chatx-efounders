@@ -1,22 +1,22 @@
 // @flow
-import type { State, User } from '../../common/types';
+import type { State, User, Room } from '../../common/types';
 import React from 'react';
 import buttonsMessages from '../../common/chat/buttonsMessages';
 import { Box, Button } from '../../common/components';
 import { FormattedMessage } from 'react-intl';
-import { joinRoom } from '../../common/chat/actions';
+import { joinRoom, leaveRoom } from '../../common/chat/actions';
 import { compose } from 'ramda';
 import { connect } from 'react-redux';
 
 type ButtonsProps = {
   joinRoom: typeof joinRoom,
-  roomId: string,
+  leaveRoom: typeof leaveRoom,
+  room: Room,
   viewer: User,
-  isMember: boolean,
+  isMember : boolean,
 };
 
-const Buttons = ({ joinRoom, roomId, viewer, isMember }: ButtonsProps) => {
-
+const Buttons = ({ joinRoom, leaveRoom, room, viewer, isMember }: ButtonsProps) => {
   return (
     <Box flexDirection="row" marginHorizontal={-0.25} marginVertical={1}>
       <FormattedMessage {...buttonsMessages.joinRoom}>
@@ -25,11 +25,10 @@ const Buttons = ({ joinRoom, roomId, viewer, isMember }: ButtonsProps) => {
             primary
             marginHorizontal={0.25}
             onPress={() => {
-              joinRoom(roomId, viewer);
-              console.log("trrrrr");
-            } }
+              isMember ? leaveRoom(room, viewer) : joinRoom(room, viewer)
+            }}
           >
-           {message}
+           {isMember ? "Leave" : "Join"}
           </Button>
         )}
       </FormattedMessage>
@@ -39,10 +38,10 @@ const Buttons = ({ joinRoom, roomId, viewer, isMember }: ButtonsProps) => {
 
 export default compose(
   connect((state: State) => ({
-    isMember: state.chat.isMemberOfCurrentRoom,
-    roomId: state.chat.currentRoom.id,
+    room: state.chat.currentRoom,
     viewer: state.users.viewer,
    }), {
     joinRoom,
+    leaveRoom,
   }),
 )(Buttons);
