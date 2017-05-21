@@ -97,6 +97,10 @@ export default [
     "defaultMessage": "Utilisateurs",
   },
   {
+    "id": "app.links.chat",
+    "defaultMessage": "Chat",
+  },
+  {
     "id": "auth.email.emailLegend",
     "defaultMessage": "Email",
   },
@@ -207,5 +211,53 @@ export default [
   {
     "id": "todos.todos.empty",
     "defaultMessage": "C'est plutôt calme par ici...",
+  },
+  {
+    "id": "chat.newRoom.placeholder",
+    "defaultMessage": "Titre...",
+  },
+  {
+    "defaultMessage": 'Discuter avec les utilisateur',
+    "id": 'chat.chatPage.Subtitle',
+  },
+  {
+    "id": "chat.newMessage.placeholder",
+    "defaultMessage": "Entrer un message..",
+  },
+  {
+    "id": "chat.newMessageDisabled.placeholder",
+    "defaultMessage": "Inscrivez-vous pour écrire !",
+  },
+  {
+    "id": "chat.buttons.joinRoom",
+    "defaultMessage": "Rejoindre",
+  },
+  {
+    "id": "chat.buttons.leaveRoom",
+    "defaultMessage": "Quitter",
+  },
+  {
+    "defaultMessage": 'Inscrivez-vous pour discuter.',
+    "id": 'chat.newMessageDisabled.placeholder',
+  },
+  {
+    "defaultMessage": 'Nouvelle room:',
+    "id": 'chat.newRoom.title',
+  },
+  {
+    "defaultMessage": 'Aucune discussion disponible.',
+    "id": 'chat.noRoomAvailable.Placeholder',
+  },
+  {
+    "defaultMessage": 'Choisissez ou créer une nouvelle discussion.',
+    "id": 'chat.noRoomSelected.Placeholder',
+  },
+  {
+    "defaultMessage": 'Rooms:',
+    "id": 'chat.rooms.Title',
+  },
+  {
+    "defaultMessage": 'Membres',
+    "id": 'chat.membersSection.Title',
   },
 ];

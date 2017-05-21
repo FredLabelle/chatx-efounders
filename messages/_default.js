@@ -93,6 +93,10 @@ export default [
     "defaultMessage": "Users",
   },
   {
+    "id": "app.links.chat",
+    "defaultMessage": "Chat",
+  },
+  {
     "id": "auth.email.emailLegend",
     "defaultMessage": "Email",
   },
@@ -215,5 +219,53 @@ export default [
   {
     "id": "todos.todos.empty",
     "defaultMessage": "It's rather empty here...",
+  },
+  {
+    "id": "chat.newRoom.placeholder",
+    "defaultMessage": "Title...",
+  },
+  {
+    "defaultMessage": 'Discuss with users',
+    "id": 'chat.chatPage.Subtitle',
+  },
+  {
+    "id": "chat.newMessage.placeholder",
+    "defaultMessage": "Enter a message..",
+  },
+  {
+    "id": "chat.newMessageDisabled.placeholder",
+    "defaultMessage": "Inscrivez-vous pour écrire !",
+  },
+  {
+    "id": "chat.buttons.joinRoom",
+    "defaultMessage": "Join",
+  },
+  {
+    "id": "chat.buttons.leaveRoom",
+    "defaultMessage": "Leave",
+  },
+  {
+    "defaultMessage": 'Join to send a message',
+    "id": 'chat.newMessageDisabled.placeholder',
+  },
+  {
+    "defaultMessage": 'New room:',
+    "id": 'chat.newRoom.title',
+  },
+  {
+    "defaultMessage": 'No room available.',
+    "id": 'chat.noRoomAvailable.Placeholder',
+  },
+  {
+    "defaultMessage": 'Please select or create a room.',
+    "id": 'chat.noRoomSelected.Placeholder',
+  },
+  {
+    "defaultMessage": 'Room:',
+    "id": 'chat.rooms.Title',
+  },
+  {
+    "defaultMessage": 'Members',
+    "id": 'chat.membersSection.Title',
   },
 ];

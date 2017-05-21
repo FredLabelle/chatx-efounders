@@ -20,6 +20,7 @@ const titles = {
   '/signin': linksMessages.signIn,
   '/todos': linksMessages.todos,
   '/me': linksMessages.me,
+  '/chat': linksMessages.chat,
 };
 
 const Page = (
