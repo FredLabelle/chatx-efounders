@@ -52,7 +52,7 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
         </Box>
       </Box>
       <Box>
-        <NewMessage room={room}/>
+        <NewMessage room={room} isMember={isMember}/>
       </Box>
     </Box>
   )

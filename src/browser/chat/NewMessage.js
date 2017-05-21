@@ -16,9 +16,10 @@ type NewMessageProps = {|
   intl: $IntlShape,
   room: Room,
   viewer: ?User,
+  isMember: boolean,
 |};
 
-const NewMessage = ({ sendMessage, fields, intl, room, viewer } : NewMessageProps ) => (
+const NewMessage = ({ sendMessage, fields, intl, room, viewer, isMember } : NewMessageProps ) => (
   <Form
     onSubmit={() => {
       const title = fields.title.value.trim();
@@ -30,7 +31,11 @@ const NewMessage = ({ sendMessage, fields, intl, room, viewer } : NewMessageProp
     <TextInput
       {...fields.title}
       maxLength={100}
-      placeholder={intl.formatMessage(chatMessages.newMessagePlaceholder)}
+      disabled={!isMember}
+      placeholder={
+        isMember ?
+        intl.formatMessage(chatMessages.newMessagePlaceholder) :
+        intl.formatMessage(chatMessages.newMessageDisabledPlaceholder)}
       size={2}
       type="text"
     />

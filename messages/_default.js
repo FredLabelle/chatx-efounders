@@ -229,6 +229,10 @@ export default [
     "defaultMessage": "Enter a message..",
   },
   {
+    "id": "chat.newMessageDisabled.placeholder",
+    "defaultMessage": "Inscrivez-vous pour écrire !",
+  },
+  {
     "id": "chat.buttons.joinRoom",
     "defaultMessage": "Join",
   },

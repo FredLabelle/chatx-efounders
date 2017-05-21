@@ -10,4 +10,8 @@ export default defineMessages({
     defaultMessage: 'Send a message..',
     id: 'chat.newMessage.placeholder',
   },
+  newMessageDisabledPlaceholder: {
+    defaultMessage: 'Join to send a message',
+    id: 'chat.newMessageDisabled.placeholder',
+  },
 });
