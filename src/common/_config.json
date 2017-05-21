@@ -1,8 +1,8 @@
 {
   "firebase": {
-    "apiKey": "AIzaSyCPSBnPc-Bol_om6KUbh9H8xIun63lwdS4",
-    "authDomain": "chatx-bcd5e.firebaseapp.com",
-    "databaseURL": "https://chatx-bcd5e.firebaseio.com",
-    "storageBucket": "chatx-bcd5e.appspot.com"
+    "apiKey": "...",
+    "authDomain": "...",
+    "databaseURL": "...",
+    "storageBucket": "..."
   }
 }
