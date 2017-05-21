@@ -6,6 +6,7 @@ import { compose, isEmpty, prop, reverse, sortBy, values } from 'ramda';
 import { connect } from 'react-redux';
 import { Box, Text, Message } from '../../common/components';
 import { injectIntl, FormattedMessage } from 'react-intl';
+import chatMessages from '../../common/chat/chatMessages';
 import { Title } from '../components';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
@@ -22,7 +23,7 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
   if (!room) {
     return (
       <Box  borderColor="black">
-        <Text>Please select or create a room.</Text>
+        <Text>{intl.formatMessage(chatMessages.noRoomSelectedPlaceholder)}</Text>
       </Box>
     );
   }

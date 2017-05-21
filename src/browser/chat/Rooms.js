@@ -5,15 +5,17 @@ import { Box, Text, OutlineButton } from '../../common/components';
 import { connect } from 'react-redux';
 import { compose, isEmpty, prop, reverse, sortBy, values } from 'ramda';
 import { injectIntl } from 'react-intl';
+import chatMessages from '../../common/chat/chatMessages';
 import { selectRoom } from '../../common/chat/actions';
 
 
 type RoomsItemProps = {
   room: Room,
   selectRoom: typeof selectRoom,
+  intl: $IntlShape,
 };
 
-const RoomsItem = ({ room, selectRoom }: RoomsItemProps) => (
+const RoomsItem = ({ room, selectRoom, intl }: RoomsItemProps) => (
   <OutlineButton
     onClick={() => selectRoom(room)}
     >
@@ -31,13 +33,13 @@ const Rooms = ({rooms, intl, selectRoom}: RoomsProps) => {
   if (!rooms) {
     return (
       <Box paddingRight={1} >
-        <Text >No room available.</Text>
+        <Text >{intl.formatMessage(chatMessages.noRoomAvailablePlaceholder)}</Text>
       </Box>
     );
   }
   return (
     <Box paddingRight={1} minWidth="180" backgroundColor="" alignItems='left'>
-      <Text>Rooms</Text>
+      <Text>{intl.formatMessage(chatMessages.roomsTitle)}</Text>
       <Box
         flexDirection="column"
         flexWrap="wrap">

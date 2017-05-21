@@ -225,6 +225,10 @@ export default [
     "defaultMessage": "Title...",
   },
   {
+    "defaultMessage": 'Discuss with users',
+    "id": 'chat.chatPage.Subtitle',
+  },
+  {
     "id": "chat.newMessage.placeholder",
     "defaultMessage": "Enter a message..",
   },
@@ -239,5 +243,29 @@ export default [
   {
     "id": "chat.buttons.leaveRoom",
     "defaultMessage": "Leave",
+  },
+  {
+    "defaultMessage": 'Join to send a message',
+    "id": 'chat.newMessageDisabled.placeholder',
+  },
+  {
+    "defaultMessage": 'New room:',
+    "id": 'chat.newRoom.title',
+  },
+  {
+    "defaultMessage": 'No room available.',
+    "id": 'chat.noRoomAvailable.Placeholder',
+  },
+  {
+    "defaultMessage": 'Please select or create a room.',
+    "id": 'chat.noRoomSelected.Placeholder',
+  },
+  {
+    "defaultMessage": 'Room:',
+    "id": 'chat.rooms.Title',
+  },
+  {
+    "defaultMessage": 'Members',
+    "id": 'chat.membersSection.Title',
   },
 ];

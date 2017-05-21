@@ -24,7 +24,7 @@ const NewRoom = ({ createRoom, fields, intl }: NewRoomProps) => (
       fields.$reset();
     }}
   >
-    <Text>New room:</Text>
+    <Text>{intl.formatMessage(chatMessages.newRoomTitle)}</Text>
     <TextInput
       {...fields.title}
       maxLength={100}
