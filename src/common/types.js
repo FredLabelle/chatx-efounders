@@ -33,6 +33,24 @@ export type User = {|
   photoURL: ?string,
 |};
 
+export type Room = {|
+  title: string,
+  createdAt: number,
+  messages: ?Array<Message>,
+  members: ?Array<User>,
+  id: string,
+|};
+
+export type Message = {|
+  text: string,
+  createdAt: number,
+  id: string,
+  roomId: string,
+  authorId: string,
+  authorName: string,
+|};
+
+
 // Reducers
 // We can't use exact object type, because spread is not supported yet.
 // We can't use Strict<T> = T & $Shape<T>, because it breaks autocomplete.
@@ -80,6 +98,11 @@ export type UsersState = {
   viewer: ?User,
 };
 
+export type ChatState = {
+  rooms: ?Array<Room>,
+  currentRoom: ?Room,
+};
+
 // State
 
 export type State = {
@@ -92,6 +115,7 @@ export type State = {
   intl: IntlState,
   todos: TodosState,
   users: UsersState,
+  chat: ChatState,
 };
 
 // Actions
@@ -122,3 +146,9 @@ export type Action =
   | { type: 'TOGGLE_TODO_COMPLETED', payload: { todo: Todo } }
   | { type: 'TOGGLE_BASELINE' }
   | { type: 'QUERY_FIREBASE', payload: { ref: string } };
+  | { type: 'CREATE_ROOM', payload: { room: Room } };
+  | { type: 'SELECT_ROOM', payload: { room: Room } };
+  | { type: 'SEND_MESSAGE', payload: { message: Message } };
+  | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } };
+  | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
+  | { type: 'ROOMS_FETCHED', payload: { rooms: Object } };

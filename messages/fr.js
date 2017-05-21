@@ -97,6 +97,10 @@ export default [
     "defaultMessage": "Utilisateurs",
   },
   {
+    "id": "app.links.chat",
+    "defaultMessage": "Chat",
+  },
+  {
     "id": "auth.email.emailLegend",
     "defaultMessage": "Email",
   },
@@ -207,5 +211,25 @@ export default [
   {
     "id": "todos.todos.empty",
     "defaultMessage": "C'est plutôt calme par ici...",
+  },
+  {
+    "id": "chat.newRoom.placeholder",
+    "defaultMessage": "Titre...",
+  },
+  {
+    "id": "chat.newMessage.placeholder",
+    "defaultMessage": "Entrer un message..",
+  },
+  {
+    "id": "chat.newMessageDisabled.placeholder",
+    "defaultMessage": "Inscrivez-vous pour écrire !",
+  },
+  {
+    "id": "chat.buttons.joinRoom",
+    "defaultMessage": "Rejoindre",
+  },
+  {
+    "id": "chat.buttons.leaveRoom",
+    "defaultMessage": "Quitter",
   },
 ];
