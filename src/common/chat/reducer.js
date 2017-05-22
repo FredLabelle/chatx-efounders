@@ -4,14 +4,14 @@ import { assoc, assocPath, update } from 'ramda';
 
 const initialState = {
   rooms: null,
-  currentRoom: null,
+  currentRoomId: null,
 };
 
 const reducer = (
   state: ChatState = initialState,
   action: Action,
 ): ChatState => {
-
+  console.log(action);
   switch (action.type) {
     case 'CREATE_ROOM': {
       var rooms = state.rooms ? state.rooms.slice() : []
@@ -20,8 +20,8 @@ const reducer = (
     }
 
     case 'SELECT_ROOM': {
-      var room = action.payload.room
-      return { ...state, currentRoom: room };
+      var roomId = action.payload.roomId
+      return { ...state, currentRoomId: roomId };
     }
 
     case 'JOIN_ROOM': {
@@ -32,10 +32,8 @@ const reducer = (
       if(!room.members){
         room.members = []
       };
-      room.members.push(action.payload.user); //TODO should not happen but check if already a member
-      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-      //Make sure currentRoom is still the one receiving new members
-      return assocPath(['currentRoom'], room , newState);
+      room.members.push(action.payload.user);
+      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
     }
 
     case 'LEAVE_ROOM': {
@@ -44,7 +42,7 @@ const reducer = (
       });
       var room = {...state.rooms[roomIndex], };
       if(!room.members){
-        return state // Should not happen
+        return state
       };
       var memberIndex = room.members.findIndex( function(member) {
         return member.id === action.payload.userId
@@ -52,9 +50,7 @@ const reducer = (
       if (memberIndex > -1) {
         room.members.splice(memberIndex, 1)
       };
-      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-      //Make sure currentRoom is still the one receiving new members
-      return assocPath(['currentRoom'], room , newState);
+      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
     }
 
     case 'SEND_MESSAGE': {
@@ -66,9 +62,7 @@ const reducer = (
         room.messages = []
       };
       room.messages.push(action.payload.message);
-      var newState = assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-      //Make sure currentRoom is still the one receiving new message
-      return assocPath(['currentRoom'], room , newState);
+      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
     }
 
     case 'ROOMS_FETCHED': {

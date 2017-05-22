@@ -32,7 +32,7 @@ const Buttons = ({ joinRoom, leaveRoom, roomId, viewer, isMember }: ButtonsProps
 
 export default compose(
   connect((state: State) => ({
-    roomId: state.chat.currentRoom.id,
+    roomId: state.chat.currentRoomId,
     viewer: state.users.viewer,
    }), {
     joinRoom,

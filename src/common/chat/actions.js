@@ -22,9 +22,9 @@ export const createRoom = (title: string) =>
     }
 };
 
-export const selectRoom = (room: Room) : Action => ({
+export const selectRoom = (roomId: string) : Action => ({
   type: 'SELECT_ROOM',
-  payload: { room },
+  payload: { roomId },
 });
 
 export const joinRoom = (roomId: string, user: User) : Action => ({

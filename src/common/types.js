@@ -100,7 +100,7 @@ export type UsersState = {
 
 export type ChatState = {
   rooms: ?Array<Room>,
-  currentRoom: ?Room,
+  currentRoomId: ?string,
 };
 
 // State

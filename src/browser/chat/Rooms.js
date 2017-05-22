@@ -17,7 +17,7 @@ type RoomsItemProps = {
 
 const RoomsItem = ({ room, selectRoom, intl }: RoomsItemProps) => (
   <OutlineButton
-    onClick={() => selectRoom(room)}
+    onClick={() => selectRoom(room.id)}
     >
     {room.title}
   </OutlineButton>

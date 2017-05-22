@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { Box, Text, Message } from '../../common/components';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import chatMessages from '../../common/chat/chatMessages';
+import getCurrentRoom from '../../common/chat/getCurrentRoom';
 import { Title } from '../components';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
@@ -14,20 +15,29 @@ import Buttons from './Buttons';
 import Members from './Members';
 
 type RoomSectionProps = {
-  room : Room,
+  rooms : ?Array<Room>,
+  currentRoomId: ?string,
   viewer : User,
   intl : $IntlShape,
 };
 
-const RoomSection = ({ room, viewer, intl } : RoomProps) => {
-  if (!room) {
-    return (
-      <Box  borderColor="black">
-        <Text>{intl.formatMessage(chatMessages.noRoomSelectedPlaceholder)}</Text>
-      </Box>
-    );
+const RoomSection = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
+
+  const emptySection = (
+    <Box  borderColor="black">
+      <Text>{intl.formatMessage(chatMessages.noRoomSelectedPlaceholder)}</Text>
+    </Box>
+  );
+
+  if (!rooms || !currentRoomId) {
+    return emptySection;
   }
   //Check if current viewer is a member of the room
+  var room = getCurrentRoom(rooms, currentRoomId);
+  if(!room){
+    return emptySection;
+  }
+
   var isMember
   if(!room.members){
     isMember = false
@@ -62,7 +72,8 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
 export default compose (
   connect(
     (state: State) => ({
-      room: state.chat.currentRoom,
+      rooms: state.chat.rooms,
+      currentRoomId: state.chat.currentRoomId,
       viewer: state.users.viewer,
     }),
   ),
