@@ -14,14 +14,14 @@ import Messages from './Messages';
 import Buttons from './Buttons';
 import Members from './Members';
 
-type RoomSectionProps = {
+type RoomChatProps = {
   rooms : ?Array<Room>,
   currentRoomId: ?string,
   viewer : User,
   intl : $IntlShape,
 };
 
-const RoomSection = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
+const RoomChat = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
 
   const emptySection = (
     <Box  borderColor="black">
@@ -78,4 +78,4 @@ export default compose (
     }),
   ),
   injectIntl,
-)(RoomSection);
+)(RoomChat);
