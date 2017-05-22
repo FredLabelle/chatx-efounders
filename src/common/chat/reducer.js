@@ -11,7 +11,7 @@ const reducer = (
   state: ChatState = initialState,
   action: Action,
 ): ChatState => {
-  console.log(action);
+
   switch (action.type) {
     case 'CREATE_ROOM': {
       var rooms = state.rooms ? state.rooms.slice() : []
@@ -24,18 +24,39 @@ const reducer = (
       return { ...state, currentRoomId: roomId };
     }
 
-    case 'JOIN_ROOM': {
-      var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.roomId
+    case 'SEND_MESSAGE': {
+      return Object.assign({}, state, {
+        rooms: state.rooms.map((room, index) => {
+          if (room.id === action.payload.message.roomId) {
+            return Object.assign({}, room, {
+              messages: [
+                ...room.messages,
+                action.payload.message
+              ]
+            })
+          };
+          return room
+        })
       });
-      var room = {...state.rooms[roomIndex], };
-      if(!room.members){
-        room.members = []
-      };
-      room.members.push(action.payload.user);
-      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
     }
 
+    case 'JOIN_ROOM': {
+      return Object.assign({}, state, {
+        rooms: state.rooms.map((room, index) => {
+          if (room.id === action.payload.roomId) {
+            return Object.assign({}, room, {
+              members: [
+                ...room.members,
+                action.payload.user
+              ]
+            })
+          };
+          return room
+        })
+      })
+    }
+
+    //TODO use object assign too here
     case 'LEAVE_ROOM': {
       var roomIndex = state.rooms.findIndex( function(room) {
         return room.id === action.payload.roomId
@@ -50,18 +71,6 @@ const reducer = (
       if (memberIndex > -1) {
         room.members.splice(memberIndex, 1)
       };
-      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
-    }
-
-    case 'SEND_MESSAGE': {
-      var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.message.roomId
-      });
-      var room = {...state.rooms[roomIndex], };
-      if(!room.messages){
-        room.messages = []
-      };
-      room.messages.push(action.payload.message);
       return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
     }
 
