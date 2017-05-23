@@ -5,6 +5,7 @@ import { assoc, assocPath, update, map } from 'ramda';
 const initialState = {
   rooms: null,
   currentRoomId: null,
+  isFetching: false,
 };
 
 const reducer = (

@@ -154,3 +154,4 @@ export type Action =
   | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
   | { type: 'ROOMS_FETCHED', payload: { rooms: Object } };
   | { type: 'FETCH_ROOMS' };
+  | { type: 'ROOM_CREATED' };

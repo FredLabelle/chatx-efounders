@@ -7,17 +7,20 @@ import { appError } from '../app/actions';
 export const createRoom = (title: string) =>
   ({ getUid, now, firebase }: Deps): Action => {
     console.log("createRoom");
-    const ref = firebase.child(`rooms/`).push({
-      createdAt: now(),
-      title: title.trim(),
-    });
-    ref.update({
-      id: ref.key
-    });
+
     return {
       type: 'CREATE_ROOM',
+      payload: {
+        createdAt: now(),
+        title: title.trim(),
+      }
     }
-};
+  };
+
+export const roomCreated = (): Action => ({
+  type: 'ROOM_CREATED'
+});
+
 
 export const selectRoom = (roomId: string) : Action => ({
   type: 'SELECT_ROOM',
@@ -57,14 +60,13 @@ export const sendMessage = (title: string, user: User, roomId: string) =>
 
 
  export const fetchRooms = (): Action => {
+   //TODO implement loader on view
    return {
      type: 'FETCH_ROOMS',
    };
  };
 
  export const roomsFetched = (snap: Object): Action => {
-   console.log("actionsdgsdfgFetchRoom");
-
    const rooms = snap.val();
    console.log(rooms);
    return {
@@ -72,3 +74,19 @@ export const sendMessage = (title: string, user: User, roomId: string) =>
      payload: { rooms },
    };
  };
+
+
+ const createRoomEpic = (action$: any, { firebase }: Deps) =>
+    action$.filter((action: Action) => action.type === 'CREATE_ROOM')
+    .mergeMap(action => {
+      const promise = firebase.child(`rooms/`).push({
+        createdAt: action.payload.createdAt,
+        title: action.payload.title,
+      });
+      return Observable.from(promise)
+        .map(() => promise.update({id: promise.key}))//add firebase generated ID inside the object
+        .map(roomCreated)
+        .catch(error => Observable.of(appError(error)));
+   });
+
+export const epics = [createRoomEpic];
