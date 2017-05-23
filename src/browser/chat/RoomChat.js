@@ -15,13 +15,13 @@ import Buttons from './Buttons';
 import Members from './Members';
 
 type RoomChatProps = {
-  rooms : ?Array<Room>,
+  room : Room,
   currentRoomId: ?string,
   viewer : User,
   intl : $IntlShape,
 };
 
-const RoomChat = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
+const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
 
   const emptySection = (
     <Box  borderColor="black">
@@ -29,12 +29,7 @@ const RoomChat = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
     </Box>
   );
 
-  if (!rooms || !currentRoomId) {
-    return emptySection;
-  }
-  //Check if current viewer is a member of the room
-  var room = getCurrentRoom(rooms, currentRoomId);
-  if(!room){
+  if (!room || !currentRoomId) {
     return emptySection;
   }
 
@@ -72,7 +67,7 @@ const RoomChat = ({ rooms, currentRoomId, viewer, intl } : RoomProps) => {
 export default compose (
   connect(
     (state: State) => ({
-      rooms: state.chat.rooms,
+      room: getCurrentRoom(state.chat.rooms, state.chat.currentRoomId),
       currentRoomId: state.chat.currentRoomId,
       viewer: state.users.viewer,
     }),
