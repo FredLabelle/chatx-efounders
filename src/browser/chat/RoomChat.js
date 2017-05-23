@@ -67,7 +67,7 @@ const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
 export default compose (
   connect(
     (state: State) => ({
-      room: getCurrentRoom(state.chat.rooms, state.chat.currentRoomId),
+      room: getCurrentRoom(state),
       currentRoomId: state.chat.currentRoomId,
       viewer: state.users.viewer,
     }),

@@ -99,8 +99,9 @@ export type UsersState = {
 };
 
 export type ChatState = {
-  rooms: ?Array<Room>,
+  rooms: ?Object,
   currentRoomId: ?string,
+  isFetching: boolean,
 };
 
 // State
@@ -152,3 +153,4 @@ export type Action =
   | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } };
   | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
   | { type: 'ROOMS_FETCHED', payload: { rooms: Object } };
+  | { type: 'FETCH_ROOMS' };

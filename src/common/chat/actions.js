@@ -6,19 +6,16 @@ import { appError } from '../app/actions';
 
 export const createRoom = (title: string) =>
   ({ getUid, now, firebase }: Deps): Action => {
-    //TODO use epics
-    var room = {
+    console.log("createRoom");
+    const ref = firebase.child(`rooms/`).push({
       createdAt: now(),
-      id: getUid(),
       title: title.trim(),
-    };
-    let connectionRef = firebase.child(`rooms/${room.id}`).push( {room} );
-    connectionRef.onDisconnect().remove();
+    });
+    ref.update({
+      id: ref.key
+    });
     return {
       type: 'CREATE_ROOM',
-      payload: {
-        room: room,
-      },
     }
 };
 
@@ -58,8 +55,18 @@ export const sendMessage = (title: string, user: User, roomId: string) =>
    },
  });
 
+
+ export const fetchRooms = (): Action => {
+   return {
+     type: 'FETCH_ROOMS',
+   };
+ };
+
  export const roomsFetched = (snap: Object): Action => {
+   console.log("actionsdgsdfgFetchRoom");
+
    const rooms = snap.val();
+   console.log(rooms);
    return {
      type: 'ROOMS_FETCHED',
      payload: { rooms },

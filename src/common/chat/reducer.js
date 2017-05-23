@@ -1,6 +1,6 @@
 // @flow
 import type { Action, ChatState } from '../types';
-import { assoc, assocPath, update } from 'ramda';
+import { assoc, assocPath, update, map } from 'ramda';
 
 const initialState = {
   rooms: null,
@@ -11,12 +11,14 @@ const reducer = (
   state: ChatState = initialState,
   action: Action,
 ): ChatState => {
-
+  console.log("actions rooms");
   switch (action.type) {
+
     case 'CREATE_ROOM': {
-      var rooms = state.rooms ? state.rooms.slice() : []
-      rooms.push(action.payload.room)
-      return { ...state, rooms: rooms };
+      console.log("reduceer_create_Room");
+      //var rooms = state.rooms ? state.rooms.slice() : []
+      //rooms.push(action.payload.room)
+      return state;
     }
 
     case 'SELECT_ROOM': {
@@ -26,8 +28,11 @@ const reducer = (
 
     case 'SEND_MESSAGE': {
       return Object.assign({}, state, {
-        rooms: state.rooms.map((room, index) => {
+        rooms: map((room, index) => {
           if (room.id === action.payload.message.roomId) {
+            if(!room.messages){
+              room.messages = []
+            }
             return Object.assign({}, room, {
               messages: [
                 ...room.messages,
@@ -36,14 +41,18 @@ const reducer = (
             })
           };
           return room
-        })
+        }, state.rooms)
       });
     }
 
     case 'JOIN_ROOM': {
       return Object.assign({}, state, {
-        rooms: state.rooms.map((room, index) => {
+        rooms: map((room, index) => {
           if (room.id === action.payload.roomId) {
+            //TODO add empty members[] in initial state
+            if(!room.members){
+              room.members = []
+            }
             return Object.assign({}, room, {
               members: [
                 ...room.members,
@@ -52,16 +61,13 @@ const reducer = (
             })
           };
           return room
-        })
+        }, state.rooms)
       })
     }
 
     //TODO use object assign too here
     case 'LEAVE_ROOM': {
-      var roomIndex = state.rooms.findIndex( function(room) {
-        return room.id === action.payload.roomId
-      });
-      var room = {...state.rooms[roomIndex], };
+      var room = {...state.rooms[action.payload.roomId], };
       if(!room.members){
         return state
       };
@@ -71,23 +77,21 @@ const reducer = (
       if (memberIndex > -1) {
         room.members.splice(memberIndex, 1)
       };
-      return assocPath(['rooms'], update(roomIndex, room, state.rooms), state)
+
+      const rooms = {...state.rooms, [action.payload.roomId]: room }
+      return assocPath(['rooms'], rooms, state)
+    }
+
+    case 'FETCH_ROOMS': {
+      return { ...state, isFetching: true }
     }
 
     case 'ROOMS_FETCHED': {
+      console.log("reduceer_Room_fetch");
       if(!action.payload) {
         return state
       }
-      const { roomsData } = action.payload.rooms;
-      if (!roomsData) {
-        return state;
-      }
-      const rooms = compose(
-        map(item => item.room),
-        values,
-        map(compose(last, values)),
-      )(roomsData);
-      return assocPath(['rooms'], rooms, state);
+      return {...state, rooms: action.payload.rooms};
     }
 
     default:

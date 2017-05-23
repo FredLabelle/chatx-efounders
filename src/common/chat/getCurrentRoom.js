@@ -1,12 +1,11 @@
 // @flow
-import type { Room } from '../../common/types';
+import type { Room, ChatState } from '../../common/types';
 
-const getCurrentRoom = (rooms: Array<Room>, id: string) : ?Room => {
-  var index = rooms.findIndex( function(room) {
-    return room.id === id
-  });
-  return index > -1 ? rooms[index] : null
-
+const getCurrentRoom = (state: ChatState) : ?Room => {
+  if(!state.chat.currentRoomId){
+    return null
+  }
+  return  state.chat.rooms[state.chat.currentRoomId]
 };
 
 export default getCurrentRoom;
