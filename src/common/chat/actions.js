@@ -1,39 +1,38 @@
 // @flow
-import type { Action, Deps, Room } from '../types';
+import type { Action, Deps, Room, Message } from '../types';
 import { Observable } from 'rxjs/Observable';
 import { range } from 'ramda';
 import { appError } from '../app/actions';
 
 export const createRoom = (title: string) =>
-  ({ getUid, now, firebase }: Deps): Action => {
-    //TODO use epics
-    var room = {
+({ getUid, now, firebase }: Deps): Action => {
+  return {
+    type: 'CREATE_ROOM',
+    payload: {
       createdAt: now(),
-      id: getUid(),
       title: title.trim(),
-    };
-    let connectionRef = firebase.child(`rooms/${room.id}`).push( {room} );
-    connectionRef.onDisconnect().remove();
-    return {
-      type: 'CREATE_ROOM',
-      payload: {
-        room: room,
-      },
     }
+  }
 };
 
-export const selectRoom = (room: Room) : Action => ({
-  type: 'SELECT_ROOM',
-  payload: { room },
+export const roomCreated = (): Action => ({
+  type: 'ROOM_CREATED'
 });
 
-export const joinRoom = (roomId: string, user: User) : Action => ({
-  type: 'JOIN_ROOM',
-  payload: {
-    roomId: roomId,
-    user: user,
-  },
+export const selectRoom = (roomId: string) : Action => ({
+  type: 'SELECT_ROOM',
+  payload: { roomId },
 });
+
+export const joinRoom = (roomId: string, user: User) : Action => {
+  return {
+    type: 'JOIN_ROOM',
+    payload: {
+      roomId: roomId,
+      user: user,
+    },
+  }
+};
 
 export const leaveRoom = (roomId: string, userId: string) : Action => ({
   type: 'LEAVE_ROOM',
@@ -44,24 +43,110 @@ export const leaveRoom = (roomId: string, userId: string) : Action => ({
 });
 
 export const sendMessage = (title: string, user: User, roomId: string) =>
-  ({ getUid, now }: Deps): Action => ({
+({ now }: Deps): Action => ({
   type: 'SEND_MESSAGE',
   payload: {
     message: {
       text: title.trim(),
       createdAt: now(),
-      id: getUid(),
       roomId: roomId,
       authorId: user.id,
       authorName: user.displayName,
     },
-   },
- });
+  },
+});
 
- export const roomsFetched = (snap: Object): Action => {
-   const rooms = snap.val();
-   return {
-     type: 'ROOMS_FETCHED',
-     payload: { rooms },
-   };
- };
+export const messageSent = (messageId: string): Action => {
+    return  {
+      type: 'MESSAGE_SENT',
+      payload: {
+        messageId: messageId,
+      }
+    }
+};
+
+export const fetchRooms = (): Action => {
+  //TODO implement loader on view
+  return {
+    type: 'FETCH_ROOMS',
+  };
+};
+
+export const roomsFetched = (snap: Object): Action => {
+  const rooms = snap.val();
+  return {
+    type: 'ROOMS_FETCHED',
+    payload: { rooms },
+  };
+};
+
+export const roomFetched = (snap: Object): Action => {
+  const room = snap.val();
+  return {
+    type: 'ROOM_FETCHED',
+    payload: { room },
+  };
+};
+
+export const userJoinedRoom = (): Action => {
+  return {
+    type: 'USER_JOINED_ROOM',
+  };
+};
+
+export const userLeftRoom = (): Action => {
+  return {
+    type: 'USER_LEFT_ROOM',
+  };
+};
+
+const createRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'CREATE_ROOM')
+  .mergeMap(action => {
+    const promise = firebase.child(`rooms/`).push(action.payload);
+    return Observable.from(promise)
+    .map(() => promise.update({id: promise.key}))//add firebase generated ID inside the object
+    .map(roomCreated)
+    .catch(error => Observable.of(appError(error)));
+});
+
+const saveMessageEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'SEND_MESSAGE')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.message.roomId}/messages`)
+    const promise = ref.push(action.payload.message);
+    return Observable.from(promise)
+    .map(() => promise.update({id: promise.key}))//add firebase generated ID inside the object
+    .mapTo(messageSent(promise.key))
+    .catch(error => Observable.of(appError(error)));
+});
+
+const selectRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'SELECT_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}`).on("value", roomFetched)
+    return Observable.of();
+});
+
+const joinRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'JOIN_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}/members/${action.payload.user.id}`)
+    const promise = ref.push({ user: action.payload.user});
+    return Observable.from(promise)
+    .mapTo(userJoinedRoom())
+    .catch(error => Observable.of(appError(error)));
+});
+
+const leaveRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'LEAVE_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}/members/${action.payload.userId}`)
+    const promise = ref.remove();
+    //TODO stop listenning to firebase room update after leaving
+    return Observable.from(promise)
+    .mapTo(userLeftRoom())
+    .catch(error => Observable.of(appError(error)));
+});
+
+export const epics = [createRoomEpic, saveMessageEpic, selectRoomEpic, joinRoomEpic, leaveRoomEpic];

@@ -37,7 +37,6 @@ const NewRoom = ({ createRoom, fields, intl }: NewRoomProps) => (
 export default compose(
   connect(null, { createRoom }),
   fields({
-    path: 'newRoom',
     fields: ['title'],
   }),
   injectIntl,

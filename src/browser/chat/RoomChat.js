@@ -7,35 +7,37 @@ import { connect } from 'react-redux';
 import { Box, Text, Message } from '../../common/components';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import chatMessages from '../../common/chat/chatMessages';
+import getSelectedRoom from '../../common/chat/getSelectedRoom';
 import { Title } from '../components';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
 import Buttons from './Buttons';
 import Members from './Members';
 
-type RoomSectionProps = {
+type RoomChatProps = {
   room : Room,
+  selectedRoomId: ?string,
   viewer : User,
   intl : $IntlShape,
 };
 
-const RoomSection = ({ room, viewer, intl } : RoomProps) => {
-  if (!room) {
-    return (
-      <Box  borderColor="black">
-        <Text>{intl.formatMessage(chatMessages.noRoomSelectedPlaceholder)}</Text>
-      </Box>
-    );
+const RoomChat = ({ room, selectedRoomId, viewer, intl } : RoomProps) => {
+
+  const emptySection = (
+    <Box  borderColor="black">
+      <Text>{intl.formatMessage(chatMessages.noRoomSelectedPlaceholder)}</Text>
+    </Box>
+  );
+
+  if (!room || !selectedRoomId) {
+    return emptySection;
   }
-  //Check if current viewer is a member of the room
+
   var isMember
-  if(!room.members){
+  if(!room.members || isEmpty(room.members)){
     isMember = false
   } else {
-      var member = room.members.find((user) => {
-        return user.id === viewer.id
-      });
-      isMember = !member ? false : true
+      isMember = room.members[viewer.id] ? true : false
     };
 
   return (
@@ -45,10 +47,21 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
         <Buttons isMember={isMember}/>
       </Box>
       <Box flexDirection="row" height={15}>
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20}  overflow='scroll'>
+        <Box
+          borderWidth={0.1}
+          borderStyle='solid'
+          borderColor="black"
+          paddingLeft={0.2} width={20}
+          overflow='scroll'>
           <Messages messages={room.messages}/>
         </Box>
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={8} overflow='scroll'>
+        <Box
+          borderWidth={0.1}
+          borderStyle='solid'
+          borderColor="black"
+          paddingLeft={0.2}
+          width={8}
+          overflow='scroll'>
           <Members members={room.members}/>
         </Box>
       </Box>
@@ -62,9 +75,10 @@ const RoomSection = ({ room, viewer, intl } : RoomProps) => {
 export default compose (
   connect(
     (state: State) => ({
-      room: state.chat.currentRoom,
+      room: getSelectedRoom(state),
+      selectedRoomId: state.chat.selectedRoomId,
       viewer: state.users.viewer,
     }),
   ),
   injectIntl,
-)(RoomSection);
+)(RoomChat);

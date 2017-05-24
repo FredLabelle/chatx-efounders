@@ -5,7 +5,7 @@ import linksMessages from '../../common/app/linksMessages';
 import { Box, Image, PageHeader } from '../../common/components';
 import { Title } from '../components';
 import Rooms from './Rooms';
-import RoomSection from './RoomSection';
+import RoomChat from './RoomChat';
 import NewRoom from './NewRoom';
 
 const ChatPage = () =>(
@@ -18,7 +18,7 @@ const ChatPage = () =>(
     <NewRoom/>
     <Box flexDirection="row">
       <Rooms/>
-      <RoomSection/>
+      <RoomChat/>
     </Box>
   </Box>
 );

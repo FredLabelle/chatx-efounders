@@ -36,8 +36,8 @@ export type User = {|
 export type Room = {|
   title: string,
   createdAt: number,
-  messages: ?Array<Message>,
-  members: ?Array<User>,
+  messages: ?Object,
+  members: ?Object,
   id: string,
 |};
 
@@ -99,8 +99,9 @@ export type UsersState = {
 };
 
 export type ChatState = {
-  rooms: ?Array<Room>,
-  currentRoom: ?Room,
+  rooms: ?Object,
+  selectedRoomId: ?string,
+  isFetching: boolean,
 };
 
 // State
@@ -145,10 +146,16 @@ export type Action =
   | { type: 'SIGN_UP_FAIL', payload: { error: Error } }
   | { type: 'TOGGLE_TODO_COMPLETED', payload: { todo: Todo } }
   | { type: 'TOGGLE_BASELINE' }
-  | { type: 'QUERY_FIREBASE', payload: { ref: string } };
-  | { type: 'CREATE_ROOM', payload: { room: Room } };
-  | { type: 'SELECT_ROOM', payload: { room: Room } };
-  | { type: 'SEND_MESSAGE', payload: { message: Message } };
-  | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } };
-  | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } };
-  | { type: 'ROOMS_FETCHED', payload: { rooms: Object } };
+  | { type: 'QUERY_FIREBASE', payload: { ref: string } }
+  | { type: 'CREATE_ROOM', payload: { room: Room } }
+  | { type: 'SELECT_ROOM', payload: { room: Room } }
+  | { type: 'SEND_MESSAGE', payload: { message: Message } }
+  | { type: 'JOIN_ROOM', payload: { roomId: string, user: User } }
+  | { type: 'LEAVE_ROOM', payload: { roomId: string, userId: string } }
+  | { type: 'ROOMS_FETCHED', payload: { rooms: Object } }
+  | { type: 'FETCH_ROOMS' }
+  | { type: 'ROOM_CREATED' }
+  | { type: 'MESSAGE_SENT' }
+  | { type: 'ROOM_FETCHED' }
+  | { type: 'USER_JOINED_ROOM' }
+  | { type: 'USER_LEFT_ROOM' };
