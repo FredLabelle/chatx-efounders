@@ -19,7 +19,7 @@ const Messages = ( {messages} : MessagesProps) => {
   return (
     <Box>
       {messages.map(message => (
-        <Box flexDirection="row" alignItems="center" key={message.id} paddingTop={0.3} height={1} flexShrink={0}>
+        <Box flexDirection="row" alignItems="center" key={message.createdAt} paddingTop={0.3} height={1} flexShrink={0}>
          <Text bold={true} >{message.authorName}: </Text>
          <Text color="black" marginLeft={0.2}>{message.text}</Text>
         </Box>

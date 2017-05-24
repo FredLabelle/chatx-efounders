@@ -16,9 +16,7 @@ const reducer = (
   switch (action.type) {
 
     case 'CREATE_ROOM': {
-      console.log("reduceer_create_Room");
-      //var rooms = state.rooms ? state.rooms.slice() : []
-      //rooms.push(action.payload.room)
+      //state will be updated thanks to firebase synchro
       return state;
     }
 
@@ -45,6 +43,7 @@ const reducer = (
         }, state.rooms)
       });
     }
+
 
     case 'JOIN_ROOM': {
       return Object.assign({}, state, {
