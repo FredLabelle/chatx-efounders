@@ -6,7 +6,7 @@ import { map, isEmpty, values } from 'ramda';
 import { Box, Text } from '../../common/components';
 
 type MessagesProps = {
-  messages: ?Array<Message>
+  messages: Object
 };
 
 const Messages = ( {messages} : MessagesProps) => {

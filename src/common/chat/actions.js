@@ -89,6 +89,18 @@ export const roomFetched = (snap: Object): Action => {
   };
 };
 
+export const userJoinedRoom = (): Action => {
+  return {
+    type: 'USER_JOINED_ROOM',
+  };
+};
+
+export const userLeftRoom = (): Action => {
+  return {
+    type: 'USER_LEFT_ROOM',
+  };
+};
+
 const createRoomEpic = (action$: any, { firebase }: Deps) =>
   action$.filter((action: Action) => action.type === 'CREATE_ROOM')
   .mergeMap(action => {
@@ -117,11 +129,25 @@ const selectRoomEpic = (action$: any, { firebase }: Deps) =>
     return Observable.of();
 });
 
-const JoinRoomEpic = (action$: any, { firebase }: Deps) =>
+const joinRoomEpic = (action$: any, { firebase }: Deps) =>
   action$.filter((action: Action) => action.type === 'JOIN_ROOM')
   .mergeMap(action => {
-    let ref = firebase.child(`rooms/${action.payload.roomId}`).on("value", roomFetched)
-    return Observable.of();
+    let ref = firebase.child(`rooms/${action.payload.roomId}/members/${action.payload.user.id}`)
+    const promise = ref.push({ user: action.payload.user});
+    return Observable.from(promise)
+    .mapTo(userJoinedRoom())
+    .catch(error => Observable.of(appError(error)));
 });
 
-export const epics = [createRoomEpic, saveMessageEpic, selectRoomEpic];
+const leaveRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'LEAVE_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}/members/${action.payload.userId}`)
+    const promise = ref.remove();
+    //TODO stop listenning to firebase room update after leaving
+    return Observable.from(promise)
+    .mapTo(userLeftRoom())
+    .catch(error => Observable.of(appError(error)));
+});
+
+export const epics = [createRoomEpic, saveMessageEpic, selectRoomEpic, joinRoomEpic, leaveRoomEpic];

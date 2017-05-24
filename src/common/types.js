@@ -36,8 +36,8 @@ export type User = {|
 export type Room = {|
   title: string,
   createdAt: number,
-  messages: ?Array<Message>,
-  members: ?Array<User>,
+  messages: ?Object,
+  members: ?Object,
   id: string,
 |};
 
@@ -156,4 +156,6 @@ export type Action =
   | { type: 'FETCH_ROOMS' }
   | { type: 'ROOM_CREATED' }
   | { type: 'MESSAGE_SENT' }
-  | { type: 'ROOM_FETCHED' };
+  | { type: 'ROOM_FETCHED' }
+  | { type: 'USER_JOINED_ROOM' }
+  | { type: 'USER_LEFT_ROOM' };

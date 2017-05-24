@@ -34,13 +34,10 @@ const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
   }
 
   var isMember
-  if(!room.members){
+  if(!room.members || isEmpty(room.members)){
     isMember = false
   } else {
-      var member = room.members.find((user) => {
-        return user.id === viewer.id
-      });
-      isMember = !member ? false : true
+      isMember = room.members[viewer.id] ? true : false
     };
 
   return (

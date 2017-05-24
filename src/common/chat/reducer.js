@@ -25,7 +25,7 @@ const reducer = (
     }
 
     case 'SEND_MESSAGE': {
-      //Refresh UI before updating server storage but can't see the difference at this speed
+      //Refresh UI before updating server storage (but can't see the difference with firebase speed)
       return Object.assign({}, state, {
         rooms: map((room, index) => {
           if (room.id === action.payload.message.roomId) {
@@ -42,43 +42,6 @@ const reducer = (
           return room
         }, state.rooms)
       });
-    }
-
-    case 'JOIN_ROOM': {
-      return Object.assign({}, state, {
-        rooms: map((room, index) => {
-          if (room.id === action.payload.roomId) {
-            //TODO add empty members[] in initial state
-            if(!room.members){
-              room.members = []
-            }
-            return Object.assign({}, room, {
-              members: [
-                ...room.members,
-                action.payload.user
-              ]
-            })
-          };
-          return room
-        }, state.rooms)
-      })
-    }
-
-    //TODO use object assign too here
-    case 'LEAVE_ROOM': {
-      var room = {...state.rooms[action.payload.roomId], };
-      if(!room.members){
-        return state
-      };
-      var memberIndex = room.members.findIndex( function(member) {
-        return member.id === action.payload.userId
-      });
-      if (memberIndex > -1) {
-        room.members.splice(memberIndex, 1)
-      };
-
-      const rooms = {...state.rooms, [action.payload.roomId]: room }
-      return assocPath(['rooms'], rooms, state)
     }
 
     case 'FETCH_ROOMS': {
