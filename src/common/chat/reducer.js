@@ -4,7 +4,7 @@ import { assoc, assocPath, update, map } from 'ramda';
 
 const initialState = {
   rooms: null,
-  currentRoomId: null,
+  selectedRoomId: null,
   isFetching: false,
 };
 
@@ -21,7 +21,7 @@ const reducer = (
 
     case 'SELECT_ROOM': {
       var roomId = action.payload.roomId
-      return { ...state, currentRoomId: roomId };
+      return { ...state, selectedRoomId: roomId };
     }
 
     case 'SEND_MESSAGE': {

@@ -19,7 +19,6 @@ export const roomCreated = (): Action => ({
   type: 'ROOM_CREATED'
 });
 
-
 export const selectRoom = (roomId: string) : Action => ({
   type: 'SELECT_ROOM',
   payload: { roomId },

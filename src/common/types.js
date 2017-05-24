@@ -100,7 +100,7 @@ export type UsersState = {
 
 export type ChatState = {
   rooms: ?Object,
-  currentRoomId: ?string,
+  selectedRoomId: ?string,
   isFetching: boolean,
 };
 

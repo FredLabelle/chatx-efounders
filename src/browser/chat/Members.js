@@ -26,9 +26,18 @@ const Members = ( {members, intl} : MembersProps) => {
 
   return (
     <Box>
-      <Text bold={true} >{intl.formatMessage(chatMessages.membersSectionTitle)}</Text>
+      <Text
+        bold={true}>
+        {intl.formatMessage(chatMessages.membersSectionTitle)}
+      </Text>
       {map(member => (
-        <Box flexDirection="row" alignItems="center" key={member.id} paddingTop={1} height={1} flexShrink={0}>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          key={member.id}
+          paddingTop={1}
+          height={1}
+          flexShrink={0}>
          <Text>{member.email}</Text>
         </Box>
       ), _members)}

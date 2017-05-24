@@ -19,9 +19,22 @@ const Messages = ( {messages} : MessagesProps) => {
   return (
     <Box>
       {values(map(message => (
-        <Box flexDirection="row" alignItems="center" key={message.createdAt} paddingTop={0.3} height={1} flexShrink={0}>
-         <Text bold={true} >{message.authorName}: </Text>
-         <Text color="black" marginLeft={0.2}>{message.text}</Text>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          key={message.createdAt}
+          paddingTop={0.3}
+          height={1}
+          flexShrink={0}>
+         <Text
+           bold={true} >
+           {message.authorName}:
+         </Text>
+         <Text
+           color="black"
+           marginLeft={0.2}>
+           {message.text}
+         </Text>
         </Box>
       ), messages))}
     </Box>

@@ -45,7 +45,7 @@ const NewMessage = ({ sendMessage, fields, intl, roomId, viewer, isMember } : Ne
 export default compose(
   connect((state: State) => ({
     viewer: state.users.viewer,
-    roomId: state.chat.currentRoomId,
+    roomId: state.chat.selectedRoomId,
   }),
   {sendMessage}),
   injectIntl,

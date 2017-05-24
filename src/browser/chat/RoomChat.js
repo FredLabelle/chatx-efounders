@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Box, Text, Message } from '../../common/components';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import chatMessages from '../../common/chat/chatMessages';
-import getCurrentRoom from '../../common/chat/getCurrentRoom';
+import getSelectedRoom from '../../common/chat/getSelectedRoom';
 import { Title } from '../components';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
@@ -16,12 +16,12 @@ import Members from './Members';
 
 type RoomChatProps = {
   room : Room,
-  currentRoomId: ?string,
+  selectedRoomId: ?string,
   viewer : User,
   intl : $IntlShape,
 };
 
-const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
+const RoomChat = ({ room, selectedRoomId, viewer, intl } : RoomProps) => {
 
   const emptySection = (
     <Box  borderColor="black">
@@ -29,7 +29,7 @@ const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
     </Box>
   );
 
-  if (!room || !currentRoomId) {
+  if (!room || !selectedRoomId) {
     return emptySection;
   }
 
@@ -47,10 +47,21 @@ const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
         <Buttons isMember={isMember}/>
       </Box>
       <Box flexDirection="row" height={15}>
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={20}  overflow='scroll'>
+        <Box
+          borderWidth={0.1}
+          borderStyle='solid'
+          borderColor="black"
+          paddingLeft={0.2} width={20}
+          overflow='scroll'>
           <Messages messages={room.messages}/>
         </Box>
-        <Box borderWidth={0.1} borderStyle='solid' borderColor="black" paddingLeft={0.2} width={8} overflow='scroll'>
+        <Box
+          borderWidth={0.1}
+          borderStyle='solid'
+          borderColor="black"
+          paddingLeft={0.2}
+          width={8}
+          overflow='scroll'>
           <Members members={room.members}/>
         </Box>
       </Box>
@@ -64,8 +75,8 @@ const RoomChat = ({ room, currentRoomId, viewer, intl } : RoomProps) => {
 export default compose (
   connect(
     (state: State) => ({
-      room: getCurrentRoom(state),
-      currentRoomId: state.chat.currentRoomId,
+      room: getSelectedRoom(state),
+      selectedRoomId: state.chat.selectedRoomId,
       viewer: state.users.viewer,
     }),
   ),

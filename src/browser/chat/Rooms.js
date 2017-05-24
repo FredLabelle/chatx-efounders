@@ -38,7 +38,11 @@ const Rooms = ({rooms, intl, selectRoom}: RoomsProps) => {
     );
   }
   return (
-    <Box paddingRight={1} minWidth="180" backgroundColor="" alignItems='left'>
+    <Box
+      paddingRight={1}
+      minWidth="180"
+      backgroundColor=""
+      alignItems='left'>
       <Text>{intl.formatMessage(chatMessages.roomsTitle)}</Text>
       <Box
         flexDirection="column"
