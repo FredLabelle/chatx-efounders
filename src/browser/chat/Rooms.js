@@ -31,7 +31,6 @@ type RoomsProps = {
 
 const Rooms = ({rooms, intl, selectRoom}: RoomsProps) => {
   if (!rooms || isEmpty(rooms)) {
-    //console.log(rooms);
     return (
       <Box paddingRight={1} >
         <Text >{intl.formatMessage(chatMessages.noRoomAvailablePlaceholder)}</Text>

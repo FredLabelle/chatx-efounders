@@ -1,13 +1,11 @@
 // @flow
-import type { Action, Deps, Room } from '../types';
+import type { Action, Deps, Room, Message } from '../types';
 import { Observable } from 'rxjs/Observable';
 import { range } from 'ramda';
 import { appError } from '../app/actions';
 
 export const createRoom = (title: string) =>
 ({ getUid, now, firebase }: Deps): Action => {
-  console.log("createRoom");
-
   return {
     type: 'CREATE_ROOM',
     payload: {
@@ -27,13 +25,15 @@ export const selectRoom = (roomId: string) : Action => ({
   payload: { roomId },
 });
 
-export const joinRoom = (roomId: string, user: User) : Action => ({
-  type: 'JOIN_ROOM',
-  payload: {
-    roomId: roomId,
-    user: user,
-  },
-});
+export const joinRoom = (roomId: string, user: User) : Action => {
+  return {
+    type: 'JOIN_ROOM',
+    payload: {
+      roomId: roomId,
+      user: user,
+    },
+  }
+};
 
 export const leaveRoom = (roomId: string, userId: string) : Action => ({
   type: 'LEAVE_ROOM',
@@ -57,16 +57,14 @@ export const sendMessage = (title: string, user: User, roomId: string) =>
   },
 });
 
-export const messageSent = (messageId: string, roomId: string): Action => {
+export const messageSent = (messageId: string): Action => {
     return  {
       type: 'MESSAGE_SENT',
       payload: {
         messageId: messageId,
-        roomId: roomId,
       }
     }
 };
-
 
 export const fetchRooms = (): Action => {
   //TODO implement loader on view
@@ -77,10 +75,17 @@ export const fetchRooms = (): Action => {
 
 export const roomsFetched = (snap: Object): Action => {
   const rooms = snap.val();
-  console.log(rooms);
   return {
     type: 'ROOMS_FETCHED',
     payload: { rooms },
+  };
+};
+
+export const roomFetched = (snap: Object): Action => {
+  const room = snap.val();
+  return {
+    type: 'ROOM_FETCHED',
+    payload: { room },
   };
 };
 
@@ -94,14 +99,29 @@ const createRoomEpic = (action$: any, { firebase }: Deps) =>
     .catch(error => Observable.of(appError(error)));
 });
 
-const newMessageEpic = (action$: any, { firebase }: Deps) =>
+const saveMessageEpic = (action$: any, { firebase }: Deps) =>
   action$.filter((action: Action) => action.type === 'SEND_MESSAGE')
   .mergeMap(action => {
-    const promise = firebase.child(`messages/`).push(action.payload.message);
+    let ref = firebase.child(`rooms/${action.payload.message.roomId}/messages`)
+    const promise = ref.push(action.payload.message);
     return Observable.from(promise)
     .map(() => promise.update({id: promise.key}))//add firebase generated ID inside the object
-    .mapTo(messageSent(promise.key, action.payload.message.roomId))
+    .mapTo(messageSent(promise.key))
     .catch(error => Observable.of(appError(error)));
 });
 
-export const epics = [createRoomEpic, newMessageEpic];
+const selectRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'SELECT_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}`).on("value", roomFetched)
+    return Observable.of();
+});
+
+const JoinRoomEpic = (action$: any, { firebase }: Deps) =>
+  action$.filter((action: Action) => action.type === 'JOIN_ROOM')
+  .mergeMap(action => {
+    let ref = firebase.child(`rooms/${action.payload.roomId}`).on("value", roomFetched)
+    return Observable.of();
+});
+
+export const epics = [createRoomEpic, saveMessageEpic, selectRoomEpic];

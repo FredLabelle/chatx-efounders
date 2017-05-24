@@ -12,7 +12,6 @@ const reducer = (
   state: ChatState = initialState,
   action: Action,
 ): ChatState => {
-  console.log("actions rooms");
   switch (action.type) {
 
     case 'CREATE_ROOM': {
@@ -26,6 +25,7 @@ const reducer = (
     }
 
     case 'SEND_MESSAGE': {
+      //Refresh UI before updating server storage but can't see the difference at this speed
       return Object.assign({}, state, {
         rooms: map((room, index) => {
           if (room.id === action.payload.message.roomId) {
@@ -43,7 +43,6 @@ const reducer = (
         }, state.rooms)
       });
     }
-
 
     case 'JOIN_ROOM': {
       return Object.assign({}, state, {
@@ -87,11 +86,18 @@ const reducer = (
     }
 
     case 'ROOMS_FETCHED': {
-      console.log("reduceer_Room_fetch");
       if(!action.payload) {
         return state
       }
       return {...state, rooms: action.payload.rooms};
+    }
+
+    case 'ROOM_FETCHED': {
+      if(!action.payload) {
+        return state
+      }
+      let rooms = {...state.rooms, [action.payload.room.id]: action.payload.room }
+      return assocPath(['rooms'], rooms, state)
     }
 
     default:
